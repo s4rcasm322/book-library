@@ -1,2 +1,7 @@
 > 1%
-last 2 versions
+last 15 version
+ie 10
+ie 11
+not ie <= 8
+Opera 12.1
+FireFox ESR
