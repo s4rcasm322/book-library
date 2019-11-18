@@ -1,14 +1,14 @@
 <template>
-	<section class="home">
+	<section class="books">
 		<div class="container">
-			<header class="home__header">
-				<div class="home__actions">
-					<van-button class="home__action home__action--btn" icon="plus" type="default">Добавить книгу</van-button>
-					<page-filters class="home__action" @filter-change="handleFilterChange" />
+			<header class="books__header">
+				<div class="books__actions">
+					<van-button class="books__action books__action--btn" icon="plus" type="default">Добавить книгу</van-button>
+					<page-filters class="books__action" @filter-change="handleFilterChange" />
 				</div>
 			</header>
-			<div class="home__content">
-				<book-list :view-type="filters.showGrid" :sort-type="filters.sortType" />
+			<div class="books__content">
+				<book-list :show-grid="filters.showGrid" :sort-type="filters.sortType" />
 			</div>
 		</div>
 	</section>
@@ -18,7 +18,7 @@ import PageFilters from '@/components/PageFilters.vue';
 import BookList from '@/components/BookList.vue';
 
 export default {
-	name: 'home',
+	name: 'books',
 	components: {
 		PageFilters,
 		BookList,
@@ -39,7 +39,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.home {
+.books {
 	width: 100%;
 	height: 100%;
 	padding: 0 16px;
