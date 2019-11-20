@@ -78,7 +78,7 @@ export default {
 
 			if (localBooks) {
 				this.books = localBooks;
-				this.sortBooks();
+				this.sortBooks('title', true);
 			}
 
 			setTimeout(() => {
