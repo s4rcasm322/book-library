@@ -2,27 +2,33 @@
 	<ul v-if="showGrid" class="books__list">
 		<book-item-card
 			v-for="book in books"
-			:key="book.title"
+			:key="book.id"
 			:title="book.title"
-			:last-name="book.lastName"
+			:author="book.author"
 			:pages="book.pages"
-			:published="book.published"
+			:published="book.publishDate"
 			:release="book.releaseDate"
 			:publisher="book.publisher"
 			:img="book.img"
+			@click="$emit('bookClick')"
+			@edit="$emit('edit')"
+			@remove="$emit('remove')"
 		/>
 	</ul>
 	<ul v-else class="books__list">
 		<book-item-row
 			v-for="book in books"
-			:key="book.title"
+			:key="book.id"
 			:title="book.title"
-			:last-name="book.lastName"
+			:author="book.author"
 			:pages="book.pages"
-			:published="book.published"
+			:published="book.publishDate"
 			:release="book.releaseDate"
 			:publisher="book.publisher"
 			:img="book.img"
+			@click="$emit('bookClick')"
+			@edit="$emit('edit')"
+			@remove="$emit('remove')"
 		/>
 	</ul>
 </template>
@@ -35,26 +41,37 @@ export default {
 	name: 'BookList',
 	components: {
 		BookItemCard,
-		BookItemRow,
+		BookItemRow
 	},
 	props: {
 		showGrid: {
 			default: true,
-			type: Boolean,
+			type: Boolean
 		},
 		sortType: {
-			type: Number,
+			type: Number
 		},
 		books: {
-			type: Array,
-		},
-	},
+			type: Array
+		}
+	}
 };
 </script>
 
 <style lang="scss" scoped>
 .books {
 	&__list {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: flex-start;
+		align-items: flex-start;
+		align-content: flex-start;
+
+		width: 100%;
+
+		@media screen and (max-width: 768px) {
+			justify-content: center;
+		}
 	}
 }
 </style>

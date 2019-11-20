@@ -44,42 +44,48 @@
 </template>
 <script>
 export default {
-	name: 'page-filters',
-	data: () => ({
-		sortTypes: [
-			{ value: 0, text: 'По алфавиту' },
-			{ value: 1, text: 'По убыванию алфавита' },
-			{ value: 2, text: 'По возрастанию даты публикации' },
-			{ value: 3, text: 'По убыванию даты публикации' },
-		],
-		filters: {
-			sortType: 0,
-			showGrid: true,
-		},
-	}),
+	name: 'PageFilters',
+	data() {
+		return {
+			sortTypes: [
+				{ value: 0, text: 'По алфавиту' },
+				{ value: 1, text: 'По убыванию алфавита' },
+				{ value: 2, text: 'По возрастанию даты публикации' },
+				{ value: 3, text: 'По убыванию даты публикации' }
+			],
+			filters: {
+				sortType: 0,
+				showGrid: true
+			}
+		};
+	},
 	watch: {
 		filters: {
 			deep: true,
 			handler(value) {
 				this.$emit('filter-change', value);
-			},
-		},
+			}
+		}
 	},
 	methods: {
 		changeView() {
 			this.filters.showGrid = !this.filters.showGrid;
-		},
-	},
+		}
+	}
 };
 </script>
 <style lang="scss" scoped>
 .filters {
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: row wrap;
 	justify-content: space-between;
 	align-items: center;
 
 	width: auto;
+
+	@media screen and (max-width: 535px) {
+		width: 100%;
+	}
 
 	&__sort {
 		min-width: 255px;

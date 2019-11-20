@@ -3,12 +3,25 @@
 		<div class="container">
 			<header class="books__header">
 				<div class="books__actions">
-					<van-button class="books__action books__action--btn" icon="plus" type="default">Добавить книгу</van-button>
-					<page-filters class="books__action" @filter-change="handleFilterChange" />
+					<van-button
+						class="books__action books__action--btn"
+						icon="plus"
+						type="default"
+						@click="$router.push('/add-book')"
+						>Добавить книгу</van-button
+					>
+					<page-filters class="books__action" @filter-change="filters = $event" />
 				</div>
 			</header>
 			<div class="books__content">
-				<book-list :show-grid="filters.showGrid" :sort-type="filters.sortType" />
+				<book-list
+					v-if="!showPreloader && books.length > 0"
+					:books="books"
+					:show-grid="filters.showGrid"
+					:sort-type="filters.sortType"
+				/>
+
+				<p v-if="!showPreloader && books.length === 0" class="books__no-books">Вы еще не добавляли книг :(</p>
 			</div>
 		</div>
 	</section>
@@ -21,21 +34,73 @@ export default {
 	name: 'books',
 	components: {
 		PageFilters,
-		BookList,
+		BookList
 	},
-	data: () => ({
+	data() {
+		return {
+			filters: {
+				sortType: 0,
+				showGrid: true
+			},
+			showPreloader: true
+		};
+	},
+	computed: {
+		books: {
+			get() {
+				return this.$store.state.books;
+			},
+			set(val) {
+				this.$store.commit('SET_BOOKS', val);
+			}
+		}
+	},
+	watch: {
 		filters: {
-			sortType: 0,
-			showGrid: true,
-		},
-	}),
-	methods: {
-		handleFilterChange(filters) {
-			this.filters = filters;
-			// console.log(filters);
-			console.log(this.filters);
-		},
+			deep: true,
+			handler(val) {
+				if (val.sortType === 0) {
+					this.sortBooks('title', true);
+				} else if (val.sortType === 1) {
+					this.sortBooks('title', false);
+				} else if (val.sortType === 2) {
+					this.sortBooks('publishDate', true);
+				} else if (val.sortType === 3) {
+					this.sortBooks('publishDate', false);
+				}
+			}
+		}
 	},
+	methods: {
+		getBooks() {
+			this.$spreloader.show();
+			const localBooks = JSON.parse(window.localStorage.getItem('books'));
+
+			if (localBooks) {
+				this.books = localBooks;
+				this.sortBooks();
+			}
+
+			setTimeout(() => {
+				this.showPreloader = false;
+				this.$spreloader.hide();
+			}, 500);
+		},
+		sortBooks(sortParam, isDesc) {
+			this.books.sort((a, b) => {
+				if (a[sortParam] > b[sortParam]) {
+					return isDesc ? 1 : -1;
+				}
+				if (a[sortParam] < b[sortParam]) {
+					return isDesc ? -1 : 1;
+				}
+				return 0;
+			});
+		}
+	},
+	mounted() {
+		this.getBooks();
+	}
 };
 </script>
 <style lang="scss" scoped>
@@ -59,7 +124,7 @@ export default {
 		justify-content: space-between;
 		align-items: center;
 
-		@media screen and (max-width: 480px) {
+		@media screen and (max-width: 535px) {
 			flex-flow: column nowrap;
 			align-items: flex-start;
 		}
@@ -78,12 +143,24 @@ export default {
 				background-color: transparent;
 				color: #444444;
 			}
-		}
 
-		margin: 15px 0 0;
+			@media screen and (max-width: 535px) {
+				margin-bottom: 15px;
+			}
+		}
 	}
 
 	&__content {
+		width: 100%;
+		height: 100%;
+		margin-top: 2rem;
+	}
+
+	&__no-books {
+		width: 100%;
+		text-align: center;
+		font-size: 23px;
+		color: rgba(40, 40, 40, 0.4);
 	}
 }
 </style>

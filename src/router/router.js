@@ -8,14 +8,24 @@ const routes = [
 	{
 		path: '/',
 		name: 'books',
-		component: Books,
+		component: Books
 	},
+	{
+		path: '/add-book',
+		name: 'add-books',
+		component: () => import('../views/AddBook.vue')
+	},
+	{
+		path: '/book/:id',
+		name: 'book',
+		component: () => import('../views/Book.vue')
+	}
 ];
 
 const router = new VueRouter({
 	mode: 'history',
 	base: process.env.BASE_URL,
-	routes,
+	routes
 });
 
 export default router;
