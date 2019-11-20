@@ -1,29 +1,31 @@
 <template>
-	<li class="books__item-row book-row">
-		<div class="book-row__content" @click="$emit('bookClick')">
-			<van-image class="book-row__img" width="100" fit="scale-down" alt="Фото книги" lazy-load :src="img" />
-			<div class="book-row__text-con">
-				<h2 class="book-row__title">{{ title || 'Название отсутсвует' }}</h2>
-				<h3 class="book-row__author">
-					{{ `${author.firstName || ''} ${author.lastName || ''}` || 'Название отсутсвует' }}
-				</h3>
-				<div class="book-row__info">
-					<span class="book-row__info-text">Издательство: {{ publisher || 'Неизвестен' }}</span>
-					<time class="book-row__info-text">Год публикации: {{ published || 'Информация отсутствует' }}</time>
-					<time class="book-row__info-text">Дата выхода в тираж: {{ release || 'Информация отсутствует' }}</time>
-					<span class="book-row__info-text">Cтраниц: {{ pages || 'Информация отсутствует' }}</span>
+	<transition name="book-row">
+		<li class="books__item-row book-row">
+			<div class="book-row__content" @click="$emit('click')">
+				<van-image class="book-row__img" width="100" fit="scale-down" alt="Фото книги" lazy-load :src="img" />
+				<div class="book-row__text-con">
+					<h2 class="book-row__title">{{ title || 'Название отсутсвует' }}</h2>
+					<h3 class="book-row__author">
+						{{ `${author.firstName || ''} ${author.lastName || ''}` || 'Название отсутсвует' }}
+					</h3>
+					<div class="book-row__info">
+						<span class="book-row__info-text">Издательство: {{ publisher || 'Неизвестен' }}</span>
+						<time class="book-row__info-text">Год публикации: {{ published || 'Информация отсутствует' }}</time>
+						<time class="book-row__info-text">Дата выхода в тираж: {{ release || 'Информация отсутствует' }}</time>
+						<span class="book-row__info-text">Cтраниц: {{ pages || 'Информация отсутствует' }}</span>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="book-row__actions">
-			<span class="book-row__action" @click="$emit('clickEdit')">
-				<i class="material-icons">edit</i>
-			</span>
-			<span class="book-row__action" @click="$emit('clickRemove')">
-				<i class="material-icons">delete</i>
-			</span>
-		</div>
-	</li>
+			<div class="book-row__actions">
+				<span class="book-row__action" @click="$emit('edit')">
+					<i class="material-icons">edit</i>
+				</span>
+				<span class="book-row__action" @click="$emit('remove')">
+					<i class="material-icons">delete</i>
+				</span>
+			</div>
+		</li>
+	</transition>
 </template>
 
 <script>
@@ -48,6 +50,10 @@ export default {
 	margin-bottom: 20px;
 	background-color: #fff;
 	box-shadow: 0 0 8px rgba(40, 40, 40, 0.1);
+
+	&-leave-to {
+		animation: fadeOut 0.3s;
+	}
 
 	&__img {
 		margin-right: 15px;

@@ -19,6 +19,9 @@
 					:books="books"
 					:show-grid="filters.showGrid"
 					:sort-type="filters.sortType"
+					@bookClick="openBookDetails"
+					@edit="openBookDetails($event, true)"
+					@remove="removeBook"
 				/>
 
 				<p v-if="!showPreloader && books.length === 0" class="books__no-books">Вы еще не добавляли книг :(</p>
@@ -96,6 +99,13 @@ export default {
 				}
 				return 0;
 			});
+		},
+		openBookDetails(id, isEdit) {
+			this.$router.push(`/book/${id}`, { props: isEdit });
+		},
+		removeBook(id) {
+			this.books = this.books.filter(book => book.id !== id);
+			window.localStorage.setItem('books', JSON.stringify(this.books));
 		}
 	},
 	mounted() {

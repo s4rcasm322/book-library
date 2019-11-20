@@ -10,9 +10,9 @@
 			:release="book.releaseDate"
 			:publisher="book.publisher"
 			:img="book.img"
-			@click="$emit('bookClick')"
-			@edit="$emit('edit')"
-			@remove="$emit('remove')"
+			@clickBook="$emit('bookClick', book.id)"
+			@edit="$emit('edit', book.id)"
+			@remove="$emit('remove', book.id)"
 		/>
 	</ul>
 	<ul v-else class="books__list">
@@ -26,9 +26,9 @@
 			:release="book.releaseDate"
 			:publisher="book.publisher"
 			:img="book.img"
-			@click="$emit('bookClick')"
-			@edit="$emit('edit')"
-			@remove="$emit('remove')"
+			@clickBook="$emit('bookClick', book.id)"
+			@edit="$emit('edit', book.id)"
+			@remove="$emit('remove', book.id)"
 		/>
 	</ul>
 </template>

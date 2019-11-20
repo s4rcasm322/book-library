@@ -1,27 +1,29 @@
 <template>
-	<li class="books__item-card book-card">
-		<div class="book-card__content" @click="$emit('clickBook')">
-			<van-image class="book-card__img" fit="scale-down" alt="Фото книги" lazy-load :src="img" />
-			<h2 class="book-card__title">{{ title || 'Название отсутсвует' }}</h2>
-			<h3 class="book-card__author">
-				{{ `${author.firstName || ''} ${author.lastName || ''}` || 'Название отсутсвует' }}
-			</h3>
-			<div class="book-card__info">
-				<span class="book-card__info-text">Издательство: {{ publisher || 'Неизвестен' }}</span>
-				<time class="book-card__info-text">Год публикации: {{ published || 'Информация отсутствует' }}</time>
-				<time class="book-card__info-text">Дата выхода в тираж: {{ release || 'Информация отсутствует' }}</time>
-				<span class="book-card__info-text">Cтраниц: {{ pages || 'Информация отсутствует' }}</span>
+	<transition name="book-card">
+		<li class="books__item-card book-card">
+			<div class="book-card__content" @click="$emit('clickBook')">
+				<van-image class="book-card__img" fit="scale-down" alt="Фото книги" lazy-load :src="img" />
+				<h2 class="book-card__title">{{ title || 'Название отсутсвует' }}</h2>
+				<h3 class="book-card__author">
+					{{ `${author.firstName || ''} ${author.lastName || ''}` || 'Название отсутсвует' }}
+				</h3>
+				<div class="book-card__info">
+					<span class="book-card__info-text">Издательство: {{ publisher || 'Неизвестен' }}</span>
+					<time class="book-card__info-text">Год публикации: {{ published || 'Информация отсутствует' }}</time>
+					<time class="book-card__info-text">Дата выхода в тираж: {{ release || 'Информация отсутствует' }}</time>
+					<span class="book-card__info-text">Cтраниц: {{ pages || 'Информация отсутствует' }}</span>
+				</div>
 			</div>
-		</div>
-		<div class="book-card__actions">
-			<span class="book-card__action" @click="$emit('clickEdit')">
-				<i class="material-icons">edit</i>
-			</span>
-			<span class="book-card__action" @click="$emit('clickRemove')">
-				<i class="material-icons">delete</i>
-			</span>
-		</div>
-	</li>
+			<div class="book-card__actions">
+				<span class="book-card__action" @click="$emit('edit')">
+					<i class="material-icons">edit</i>
+				</span>
+				<span class="book-card__action" @click="$emit('remove')">
+					<i class="material-icons">delete</i>
+				</span>
+			</div>
+		</li>
+	</transition>
 </template>
 
 <script>
@@ -42,15 +44,20 @@ export default {
 <style lang="scss" scoped>
 .book-card {
 	width: calc(33.3333% - 20px);
-	min-width: 300px;
-	margin: 0 auto 20px;
+	min-width: 220px;
+	margin: 0 10px 20px;
 	margin-bottom: 20px;
 	background-color: #fff;
 	box-shadow: 0 0 8px rgba(40, 40, 40, 0.1);
 
 	@media screen and (max-width: 480px) {
 		width: 75%;
+		max-width: auto;
 		margin-right: 0;
+	}
+
+	&-leave-to {
+		animation: fadeOut 0.3s;
 	}
 
 	&__content {
