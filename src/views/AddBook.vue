@@ -108,7 +108,7 @@
 			</div>
 
 			<div class="add-book__actions">
-				<van-button class="add-book__action" type="default" @click="addBook">Добавить</van-button>
+				<van-button class="add-book__action" type="primary" @click="addBook">Добавить</van-button>
 				<van-button class="add-book__action add-book__action--cancel" type="default" @click="$router.push('/')"
 					>Отмена</van-button
 				>
@@ -197,9 +197,9 @@ export default {
 			}
 		}
 	},
-	mounted() {
+	created() {
 		const localBooks = JSON.parse(window.localStorage.getItem('books'));
-		if (localBooks) {
+		if (localBooks && this.books.length === 0) {
 			this.books = localBooks;
 		}
 	}
@@ -220,7 +220,8 @@ export default {
 	&__back {
 		margin-right: auto;
 		color: #00a086;
-		font-size: 20px;
+		font-size: 22px;
+		font-weight: 500;
 	}
 
 	&__title {
@@ -264,7 +265,6 @@ export default {
 	&__action {
 		min-width: 150px;
 		margin: 0 20px;
-		background-color: lighten($color: #00a086, $amount: 5%);
 		cursor: pointer;
 
 		font-size: 18px;

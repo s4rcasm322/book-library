@@ -16,9 +16,10 @@ const routes = [
 		component: () => import('../views/AddBook.vue')
 	},
 	{
-		path: '/book/:id',
+		path: '/book/:id/:isEditing?',
 		name: 'book',
-		component: () => import('../views/Book.vue')
+		component: () => import('../views/Book.vue'),
+		props: true
 	}
 ];
 

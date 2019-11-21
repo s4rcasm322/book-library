@@ -18,7 +18,7 @@ export default {
 	},
 	data() {
 		return {
-			localPhoto: ''
+			localPhoto: this.photo
 		};
 	},
 	methods: {
@@ -46,7 +46,7 @@ export default {
 			}
 		},
 		removePhoto() {
-			this.localPhoto = null;
+			this.localPhoto = '';
 			this.$emit('remove', this.localPhoto);
 		}
 	}
@@ -73,10 +73,9 @@ export default {
 
 		width: 100%;
 		height: 100%;
-		border: 1px solid rgba(100, 100, 100, 0.5);
 		border-radius: 12px;
 		padding: 0;
-		margin: 0 15px 15px;
+		margin-right: 15px;
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center center;
@@ -85,8 +84,6 @@ export default {
 
 		border: 1px dashed rgba(100, 100, 100, 0.5);
 		background-color: #f5f5f5;
-		margin-left: 0;
-		margin-bottom: 0;
 	}
 
 	&__input {

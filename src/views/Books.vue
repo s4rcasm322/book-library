@@ -97,8 +97,11 @@ export default {
 				return 0;
 			});
 		},
-		openBookDetails(id, isEdit) {
-			this.$router.push(`/book/${id}`, { props: isEdit });
+		openBookDetails(id, isEditing) {
+			this.$router.push({
+				name: 'book',
+				params: { id, isEditing }
+			});
 		},
 		removeBook(id) {
 			this.$spreloader.show();
@@ -114,7 +117,7 @@ export default {
 			}, 500);
 		}
 	},
-	mounted() {
+	created() {
 		this.getBooks();
 	}
 };
