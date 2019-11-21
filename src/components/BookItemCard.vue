@@ -2,16 +2,36 @@
 	<transition name="book-card">
 		<li class="books__item-card book-card">
 			<div class="book-card__content" @click="$emit('clickBook')">
-				<van-image class="book-card__img" fit="scale-down" alt="Фото книги" lazy-load :src="img" />
+				<van-image
+					class="book-card__img"
+					width="100%"
+					height="350"
+					fit="scale-down"
+					alt="Фото книги"
+					lazy-load
+					:src="img"
+				/>
 				<h2 class="book-card__title">{{ title || 'Название отсутсвует' }}</h2>
 				<h3 class="book-card__author">
-					{{ `${author.firstName || ''} ${author.lastName || ''}` || 'Название отсутсвует' }}
+					{{ author.firstName || author.lastName ? `${author.firstName} ${author.lastName}` : 'Автор незивестен' }}
 				</h3>
 				<div class="book-card__info">
-					<span class="book-card__info-text">Издательство: {{ publisher || 'Неизвестен' }}</span>
-					<time class="book-card__info-text">Год публикации: {{ published || 'Информация отсутствует' }}</time>
-					<time class="book-card__info-text">Дата выхода в тираж: {{ release || 'Информация отсутствует' }}</time>
-					<span class="book-card__info-text">Cтраниц: {{ pages || 'Информация отсутствует' }}</span>
+					<span class="book-card__info-text">
+						Издательство:
+						{{ publisher || 'Информация отсутствует' }}
+					</span>
+					<time class="book-card__info-text">
+						Год публикации:
+						{{ published || 'Информация отсутствует' }}
+					</time>
+					<time class="book-card__info-text">
+						Дата выхода в тираж:
+						{{ release || 'Информация отсутствует' }}
+					</time>
+					<span class="book-card__info-text">
+						Cтраниц:
+						{{ pages || 'Информация отсутствует' }}
+					</span>
 				</div>
 			</div>
 			<div class="book-card__actions">
@@ -49,8 +69,9 @@ export default {
 	margin-bottom: 20px;
 	background-color: #fff;
 	box-shadow: 0 0 8px rgba(40, 40, 40, 0.1);
+	overflow: hidden;
 
-	@media screen and (max-width: 480px) {
+	@media screen and (max-width: 500px) {
 		width: 75%;
 		max-width: auto;
 		margin-right: 0;
@@ -61,16 +82,22 @@ export default {
 	}
 
 	&__content {
-		padding: 15px;
+		padding: 15px 10px;
 	}
 
 	&__title {
 		font-size: 22px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
 	&__author {
 		margin-bottom: 10px;
 		font-size: 18px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
 	&__info {
@@ -79,6 +106,12 @@ export default {
 		margin-bottom: 10px;
 
 		font-size: 16px;
+	}
+
+	&__info-text {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
 	&__actions {

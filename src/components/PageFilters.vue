@@ -1,7 +1,7 @@
 <template>
 	<div class="filters">
 		<van-dropdown-menu class="filters__sort" :overlay="false" active-color="#00c086">
-			<van-dropdown-item class="filters__sort-item" v-model="filters.sortType" :options="sortTypes" />
+			<van-dropdown-item class="filters__sort-item" v-model="sortType" :options="sortTypes" />
 		</van-dropdown-menu>
 
 		<div class="filters__buttons">
@@ -47,29 +47,43 @@ export default {
 	name: 'PageFilters',
 	data() {
 		return {
+			sortType: 'titleDesc',
 			sortTypes: [
-				{ value: 0, text: 'По алфавиту' },
-				{ value: 1, text: 'По убыванию алфавита' },
-				{ value: 2, text: 'По возрастанию даты публикации' },
-				{ value: 3, text: 'По убыванию даты публикации' }
+				{ value: 'titleDesc', text: 'По алфавиту' },
+				{ value: 'titleAsc', text: 'По убыванию алфавита' },
+				{ value: 'publishDateDesc', text: 'По возрастанию даты публикации' },
+				{ value: 'publishDateAsc', text: 'По убыванию даты публикации' }
 			],
 			filters: {
-				sortType: 0,
+				sort: {
+					type: 'title',
+					isDesc: true
+				},
 				showGrid: true
 			}
 		};
 	},
 	watch: {
-		filters: {
-			deep: true,
-			handler(value) {
-				this.$emit('filter-change', value);
+		sortType(val) {
+			if (val.includes('title')) {
+				this.filters.sort.type = 'title';
+			} else {
+				this.filters.sort.type = 'publishDate';
 			}
+
+			if (val.includes('Desc')) {
+				this.filters.sort.isDesc = true;
+			} else {
+				this.filters.sort.isDesc = false;
+			}
+
+			this.$emit('filter-change', this.filters);
 		}
 	},
 	methods: {
 		changeView() {
 			this.filters.showGrid = !this.filters.showGrid;
+			this.$emit('filter-change', this.filters);
 		}
 	}
 };

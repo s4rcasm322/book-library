@@ -139,6 +139,10 @@ html,
 	}
 }
 
+#app {
+	height: auto;
+}
+
 ul {
 	margin: 0;
 	padding: 0;

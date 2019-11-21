@@ -6,7 +6,7 @@
 				<div class="book-row__text-con">
 					<h2 class="book-row__title">{{ title || 'Название отсутсвует' }}</h2>
 					<h3 class="book-row__author">
-						{{ `${author.firstName || ''} ${author.lastName || ''}` || 'Название отсутсвует' }}
+						{{ author.firstName || author.lastName ? `${author.firstName} ${author.lastName}` : 'Автор незивестен' }}
 					</h3>
 					<div class="book-row__info">
 						<span class="book-row__info-text">Издательство: {{ publisher || 'Неизвестен' }}</span>

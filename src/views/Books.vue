@@ -16,7 +16,7 @@
 			<div class="books__content">
 				<book-list
 					v-if="!showPreloader && books.length > 0"
-					:books="books"
+					:books="localBooks"
 					:show-grid="filters.showGrid"
 					:sort-type="filters.sortType"
 					@bookClick="openBookDetails"
@@ -42,9 +42,13 @@ export default {
 	data() {
 		return {
 			filters: {
-				sortType: 0,
+				sort: {
+					type: 'title',
+					isDesc: true
+				},
 				showGrid: true
 			},
+			localBooks: [],
 			showPreloader: true
 		};
 	},
@@ -62,15 +66,7 @@ export default {
 		filters: {
 			deep: true,
 			handler(val) {
-				if (val.sortType === 0) {
-					this.sortBooks('title', true);
-				} else if (val.sortType === 1) {
-					this.sortBooks('title', false);
-				} else if (val.sortType === 2) {
-					this.sortBooks('publishDate', true);
-				} else if (val.sortType === 3) {
-					this.sortBooks('publishDate', false);
-				}
+				this.sortBooks(val.sort.type, val.sort.isDesc);
 			}
 		}
 	},
@@ -81,7 +77,8 @@ export default {
 
 			if (localBooks) {
 				this.books = localBooks;
-				this.sortBooks('title', true);
+				this.localBooks = [...this.books];
+				this.sortBooks(this.filters.sort.type, this.filters.sort.isDesc);
 			}
 
 			setTimeout(() => {
@@ -90,7 +87,7 @@ export default {
 			}, 500);
 		},
 		sortBooks(sortParam, isDesc) {
-			this.books.sort((a, b) => {
+			this.localBooks.sort((a, b) => {
 				if (a[sortParam] > b[sortParam]) {
 					return isDesc ? 1 : -1;
 				}
@@ -104,8 +101,17 @@ export default {
 			this.$router.push(`/book/${id}`, { props: isEdit });
 		},
 		removeBook(id) {
-			this.books = this.books.filter(book => book.id !== id);
-			window.localStorage.setItem('books', JSON.stringify(this.books));
+			this.$spreloader.show();
+
+			setTimeout(() => {
+				this.books = this.books.filter(book => book.id !== id);
+				this.localBooks = [...this.books];
+				window.localStorage.setItem('books', JSON.stringify(this.books));
+
+				this.sortBooks(this.filters.sort.type, this.filters.sort.isDesc);
+
+				this.$spreloader.hide();
+			}, 500);
 		}
 	},
 	mounted() {
@@ -117,16 +123,7 @@ export default {
 .books {
 	width: 100%;
 	height: 100%;
-	padding: 0 16px;
-	padding-top: 5rem;
-
-	@media screen and (max-width: 768px) {
-		padding: 0;
-		padding-top: 5rem;
-	}
-
-	&__header {
-	}
+	padding: 5rem 0;
 
 	&__actions {
 		display: flex;
