@@ -186,7 +186,12 @@ export default {
 				this.$spreloader.show();
 
 				setTimeout(() => {
-					this.newBook.id = this.books[this.books.length - 1].id + 1;
+					if (this.books.length > 0) {
+						this.newBook.id = this.books[this.books.length - 1].id + 1;
+					} else {
+						this.newBook.id = 1;
+					}
+
 					this.books.push(this.newBook);
 					window.localStorage.setItem('books', JSON.stringify(this.books));
 

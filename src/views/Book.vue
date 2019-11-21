@@ -219,11 +219,13 @@ export default {
 				this.$spreloader.show();
 
 				setTimeout(() => {
-					this.books.map(book => {
+					this.books = this.books.map(book => {
 						if (book.id === this.details.id) {
 							book = this.details;
 						}
+						return book;
 					});
+
 					window.localStorage.setItem('books', JSON.stringify(this.books));
 
 					this.isEdit = false;
