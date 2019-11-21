@@ -2,7 +2,8 @@
 set -e
 npm run build
 cd dist
-git add -A
+git init
+git add .
 git commit -m 'deploy'
-git push -f git@github.com:<s4rcasm322>/<book-library>.git master:gh-pages
+git push -f https://github.com/s4rcasm322/book-library.git master:gh-pages
 cd -
